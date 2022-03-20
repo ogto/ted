@@ -1,8 +1,8 @@
 (() => {
-    let yOffset = 0; // window.pageYOffset 대신 쓸 변수
-    let prevScrollHeight = 0; // 현재 스크롤 위치(yOffset)보다 이전에 위치한 스크롤 섹션들의 스크롤 높이값의 합
-    let currentScene = 0; // 현재 활성화된(눈 앞에 보고있는) 씬(scroll-section)
-    let enterNewScene = false; // 새로운 scene이 시작된 순간 true
+    let yOffset = 0;
+    let prevScrollHeight = 0;
+    let currentScene = 0;
+    let enterNewScene = false;
     let acc = 0.2;
     let delayedYOffset = 0;
     let rafId;
@@ -12,7 +12,7 @@
         {
             // 0
             type: "sticky",
-            heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅
+            heightNum: 5,
             scrollHeight: 0,
             obj: {
                 container: document.querySelector("#scrollSec0"),
@@ -44,7 +44,6 @@
         {
             // 1
             type: "normal",
-            // heightNum: 5, // type normal에서는 필요 없음
             scrollHeight: 0,
             obj: {
                 container: document.querySelector("#scrollSec1"),
@@ -137,7 +136,6 @@
     }
 
     function setLayout() {
-        // 각 스크롤 섹션의 높이 세팅
         for (let i = 0; i < sceneInfo.length; i++) {
             if (sceneInfo[i].type === "sticky") {
                 sceneInfo[i].scrollHeight =
@@ -165,18 +163,14 @@
         document.body.setAttribute("id", `showScene${currentScene}`);
 
         const heightRatio = window.innerHeight / 1080;
-        // sceneInfo[0].obj.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
-        // sceneInfo[2].obj.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
     }
 
     function calcValues(values, currentYOffset) {
         let rv;
-        // 현재 씬(스크롤섹션)에서 스크롤된 범위를 비율로 구하기
         const scrollHeight = sceneInfo[currentScene].scrollHeight;
         const scrollRatio = currentYOffset / scrollHeight;
 
         if (values.length === 3) {
-            // start ~ end 사이에 애니메이션 실행
             const partScrollStart = values[2].start * scrollHeight;
             const partScrollEnd = values[2].end * scrollHeight;
             const partScrollHeight = partScrollEnd - partScrollStart;
@@ -211,8 +205,6 @@
         switch (currentScene) {
             case 0:
                 // console.log('0 play');
-                // let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
-                // obj.context.drawImage(obj.videoImages[sequence], 0, 0);
 
                 if (scrollRatio <= 0.22) {
                     // in
@@ -305,10 +297,6 @@
                 break;
 
             case 2:
-                // console.log('2 play');
-                // let sequence2 = Math.round(calcValues(values.imageSequence, currentYOffset));
-                // obj.context.drawImage(obj.videoImages[sequence2], 0, 0);
-
                 if (scrollRatio <= 0.5) {
                     // in
                 } else {
@@ -397,7 +385,6 @@
                     )})`;
                 }
 
-                // currentScene 3에서 쓰는 캔버스를 미리 그려주기 시작
                 if (scrollRatio > 0.9) {
                     const obj = sceneInfo[3].obj;
                     const values = sceneInfo[3].values;
@@ -406,10 +393,8 @@
                     let canvasScaleRatio;
 
                     if (widthRatio <= heightRatio) {
-                        // 캔버스보다 브라우저 창이 홀쭉한 경우
                         canvasScaleRatio = heightRatio;
                     } else {
-                        // 캔버스보다 브라우저 창이 납작한 경우
                         canvasScaleRatio = widthRatio;
                     }
 
@@ -417,7 +402,6 @@
                     obj.context.fillStyle = "white";
                     obj.context.drawImage(obj.images[0], 0, 0);
 
-                    // 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
                     const recalculatedInnerWidth =
                         document.body.offsetWidth / canvasScaleRatio;
                     const recalculatedInnerHeight =
@@ -433,7 +417,6 @@
                         whiteRectWidth;
                     values.rect2X[1] = values.rect2X[0] + whiteRectWidth;
 
-                    // 좌우 흰색 박스 그리기
                     obj.context.fillRect(
                         parseInt(values.rect1X[0]),
                         0,
@@ -453,16 +436,13 @@
             case 3:
                 // console.log('3 play');
                 let step = 0;
-                // 가로/세로 모두 꽉 차게 하기 위해 여기서 세팅(계산 필요)
                 const widthRatio = window.innerWidth / obj.canvas.width;
                 const heightRatio = window.innerHeight / obj.canvas.height;
                 let canvasScaleRatio;
 
                 if (widthRatio <= heightRatio) {
-                    // 캔버스보다 브라우저 창이 홀쭉한 경우
                     canvasScaleRatio = heightRatio;
                 } else {
-                    // 캔버스보다 브라우저 창이 납작한 경우
                     canvasScaleRatio = widthRatio;
                 }
 
@@ -470,14 +450,12 @@
                 obj.context.fillStyle = "white";
                 obj.context.drawImage(obj.images[0], 0, 0);
 
-                // 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
                 const recalculatedInnerWidth =
                     document.body.offsetWidth / canvasScaleRatio;
                 const recalculatedInnerHeight =
                     window.innerHeight / canvasScaleRatio;
 
                 if (!values.rectStartY) {
-                    // values.rectStartY = obj.canvas.getBoundingClientRect().top;
                     values.rectStartY =
                         obj.canvas.offsetTop +
                         (obj.canvas.height -
@@ -499,7 +477,6 @@
                     values.rect1X[0] + recalculatedInnerWidth - whiteRectWidth;
                 values.rect2X[1] = values.rect2X[0] + whiteRectWidth;
 
-                // 좌우 흰색 박스 그리기
                 obj.context.fillRect(
                     parseInt(calcValues(values.rect1X, currentYOffset)),
                     0,
@@ -516,13 +493,9 @@
                 console.log(scrollRatio, values.rect1X[2].end);
                 if (scrollRatio < values.rect1X[2].end + 0.1) {
                     step = 1;
-                    // console.log('캔버스 닿기 전');
                     obj.canvas.classList.remove("sticky");
                 } else {
                     step = 2;
-                    // console.log('캔버스 닿은 후');
-                    // 이미지 블렌드
-                    // values.blendHeight: [ 0, 0, { start: 0, end: 0 } ]
                     values.blendHeight[0] = 0;
                     values.blendHeight[1] = obj.canvas.height;
                     values.blendHeight[2].start = values.rect1X[2].end;
@@ -634,7 +607,6 @@
 
         if (delayedYOffset < prevScrollHeight) {
             enterNewScene = true;
-            // 브라우저 바운스 효과로 인해 마이너스가 되는 것을 방지(모바일)
             if (currentScene === 0) return;
             currentScene--;
             document.body.setAttribute("id", `showScene${currentScene}`);
@@ -655,13 +627,9 @@
                 const values = sceneInfo[currentScene].values;
             }
         }
-
-        // 일부 기기에서 페이지 끝으로 고속 이동하면 body id가 제대로 인식 안되는 경우를 해결
-        // 페이지 맨 위로 갈 경우: scrollLoop와 첫 scene의 기본 캔버스 그리기 수행
         if (delayedYOffset < 1) {
             scrollLoop();
         }
-        // 페이지 맨 아래로 갈 경우: 마지막 섹션은 스크롤 계산으로 위치 및 크기를 결정해야할 요소들이 많아서 1픽셀을 움직여주는 것으로 해결
         if (
             document.body.offsetHeight - window.innerHeight - delayedYOffset <
             1
@@ -679,11 +647,10 @@
     }
 
     window.addEventListener("load", () => {
-        setLayout(); // 중간에 새로고침 시, 콘텐츠 양에 따라 높이 계산에 오차가 발생하는 경우를 방지하기 위해 before-load 클래스 제거 전에도 확실하게 높이를 세팅하도록 한번 더 실행
+        setLayout();
         document.body.classList.remove("before-load");
         setLayout();
 
-        // 중간에서 새로고침 했을 경우 자동 스크롤로 제대로 그려주기
         let tempYOffset = yOffset;
         let tempScrollCount = 0;
         if (tempYOffset > 0) {
