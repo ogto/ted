@@ -127,6 +127,7 @@ body.before-load {
     width: 45%;
     font-weight: bold;
     opacity: 0;
+    font-size: 1.5rem;
 }
 .pin {
     width: 1px;
