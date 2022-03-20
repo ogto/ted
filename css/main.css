@@ -94,7 +94,6 @@ body.before-load {
 }
 #scrollSec1 {
     background: url("../img/shines.jpg");
-    background-attachment: fixed;
 }
 
 #scrollSec2 .main-message {
