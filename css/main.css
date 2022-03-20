@@ -94,6 +94,7 @@ body.before-load {
 }
 #scrollSec1 {
     background: url("../img/shines.jpg");
+    background-attachment: fixed;
 }
 
 #scrollSec2 .main-message {
@@ -111,7 +112,7 @@ body.before-load {
     list-style: none;
     margin-right: 0.2em;
     font-size: 3rem;
-    color: rgb(29, 29, 31);
+    color: white;
 }
 .description:nth-child(1) {
     text-align: left;
